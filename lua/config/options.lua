@@ -25,3 +25,14 @@ opt.swapfile = false
 
 -- GUI
 opt.guifont = { "Maple Mono NF CN", ":h18" }
+
+-- 文件在外部被修改时自动重新加载
+opt.autoread = true
+vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "CursorHold", "TermLeave" }, {
+  group = vim.api.nvim_create_augroup("auto_checktime", { clear = true }),
+  callback = function()
+    if vim.fn.mode() ~= "c" and vim.fn.getcmdwintype() == "" then
+      vim.cmd("checktime")
+    end
+  end,
+})
